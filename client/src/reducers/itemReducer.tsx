@@ -1,0 +1,53 @@
+// Reducer is where the actual state is going to go,
+// this where we check our actions.
+// This is where we check our actions. (get Items, add Items)
+// it will dispatch to our recuder. and can have payload
+// Server to reducer communication.
+
+import { v4 as uuid } from "uuid";
+import { ADD_ITEMS, DELETE_ITEMS, GET_ITEMS } from "../actions/types";
+import IAction from "../models/iAction";
+import IState from "../models/iState";
+
+const initialStatetate: IState = {
+  items: [
+    {
+      id: uuid(),
+      name: "item1"
+    },
+    {
+      id: uuid(),
+      name: "item2"
+    },
+    {
+      id: uuid(),
+      name: "item3"
+    },
+    {
+      id: uuid(),
+      name: "item4"
+    },
+    {
+      id: uuid(),
+      name: "item5"
+    },
+    {
+      id: uuid(),
+      name: "item6"
+    }
+  ]
+};
+
+//** A function that takes the inital state an action to perform and returns the new state */
+var itemReducer = function(state = initialStatetate, action: IAction) {
+  switch (action.type) {
+    case GET_ITEMS:
+      var newState: IState = {
+        ...state
+      };
+      return newState;
+    default:
+      return state;
+  }
+};
+export default itemReducer;

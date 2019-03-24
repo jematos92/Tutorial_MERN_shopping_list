@@ -1,64 +1,35 @@
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import {
-  Collapse,
-  Container,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
+import { Container } from "reactstrap";
 import Button from "reactstrap/lib/Button";
-import { STATES } from "mongoose";
 import ListGroup from "reactstrap/lib/ListGroup";
 import ListGroupItem from "reactstrap/lib/ListGroupItem";
 
-interface IState {
-  items: IItem[];
+// Connect allows to get state from redux into react.
+import { connect } from "react-redux";
+import { getItems } from "../actions/itemActions";
+import IState from "../models/iState";
+import ICombinedReducer from "../models/iCombinedReducer";
+import IAction from "../models/iAction";
+import PropTypes from "prop-types";
+
+interface Props {
+  getItems(): IAction;
+  item: IState;
 }
-interface IItem {
-  id: string;
-  name: string;
-}
-class ShoppingList extends Component {
-  state: IState = {
-    items: [
-      {
-        id: uuid(),
-        name: "item1"
-      },
-      {
-        id: uuid(),
-        name: "item2"
-      },
-      {
-        id: uuid(),
-        name: "item3"
-      },
-      {
-        id: uuid(),
-        name: "item4"
-      },
-      {
-        id: uuid(),
-        name: "item5"
-      },
-      {
-        id: uuid(),
-        name: "item6"
-      }
-    ]
+class ShoppingList extends Component<Props> {
+  static propTypes: { [key in keyof Props]: any } = {
+    item: PropTypes.object.isRequired,
+    getItems: PropTypes.func.isRequired
   };
 
+  componentDidMount() {
+    this.props.getItems();
+  }
+
   render() {
-    const items = this.state.items;
+    const items = this.props.item.items;
     return (
       <Container>
         <Button
@@ -69,7 +40,7 @@ class ShoppingList extends Component {
             if (name) {
               var newState: IState = {
                 items: [
-                  ...this.state.items,
+                  ...this.props.item.items,
                   {
                     id: uuid(),
                     name: name
@@ -94,7 +65,7 @@ class ShoppingList extends Component {
                     size="sm"
                     onClick={() => {
                       var newState: IState = {
-                        items: [...this.state.items].filter(
+                        items: [...this.props.item.items].filter(
                           stateItem => stateItem.id !== item.id
                         )
                       };
@@ -115,4 +86,17 @@ class ShoppingList extends Component {
   }
 }
 
-export default ShoppingList;
+/**A function that takes the combined reducer
+ * and returns an instance of the global state
+ * This functions maps the application global state
+ * to the component proptype
+ * Each field in the object returned will become a prop for your actual component
+ */
+const mapStateToProps = (state: ICombinedReducer): Object => ({
+  item: state.item
+});
+
+export default connect(
+  mapStateToProps,
+  { getItems } // The get Items action will be stored as a prop
+)(ShoppingList);
