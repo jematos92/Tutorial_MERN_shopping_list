@@ -25,6 +25,7 @@
     "@types/mongodb": "^3.1.22",
     "@types/mongoose": "^5.3.23",
     "@types/node": "^11.11.6",
+    "@types/react-transition-group": "^2.0.16",
     "@types/uuid": "^3.4.4",
     "nodemon": "^1.18.10",
     "ts-node": "^8.0.3",
