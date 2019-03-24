@@ -1,0 +1,31 @@
+{
+  "name": "mern_shopping_list",
+  "version": "1.0.0",
+  "description": "shopping list built with the MERN stack, Mongo, Express, React, Node",
+  "main": "index.ts",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json –fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "dev": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "moment": "^2.24.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/node": "^11.11.6",
+    "@types/uuid": "^3.4.4",
+    "nodemon": "^1.18.10",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.4000"
+  },
+  "author": "Javier Perez",
+  "license": "MIT"
+}
