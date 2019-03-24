@@ -12,7 +12,11 @@ class App extends Component {
       <Provider store={store}>
         <div className="App">
           <NavBar />
-          <ShoppingList item={{ items: [] }} getItems={null} />
+          <ShoppingList
+            item={{ items: [] }}
+            getItems={null}
+            deleteItem={null}
+          />
         </div>
       </Provider>
     );

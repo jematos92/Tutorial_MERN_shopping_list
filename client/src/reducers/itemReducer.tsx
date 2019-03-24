@@ -5,7 +5,7 @@
 // Server to reducer communication.
 
 import { v4 as uuid } from "uuid";
-import { ADD_ITEMS, DELETE_ITEMS, GET_ITEMS } from "../actions/types";
+import { ADD_ITEMS, DELETE_ITEM, GET_ITEMS } from "../actions/types";
 import IAction from "../models/iAction";
 import IState from "../models/iState";
 
@@ -44,6 +44,12 @@ var itemReducer = function(state = initialStatetate, action: IAction) {
     case GET_ITEMS:
       var newState: IState = {
         ...state
+      };
+      return newState;
+    case DELETE_ITEM:
+      var newState: IState = {
+        ...state,
+        items: state.items.filter(x => x.id !== action.payload)
       };
       return newState;
     default:

@@ -8,7 +8,7 @@ import ListGroupItem from "reactstrap/lib/ListGroupItem";
 
 // Connect allows to get state from redux into react.
 import { connect } from "react-redux";
-import { getItems } from "../actions/itemActions";
+import { getItems, deleteItem } from "../actions/itemActions";
 import IState from "../models/iState";
 import ICombinedReducer from "../models/iCombinedReducer";
 import IAction from "../models/iAction";
@@ -16,44 +16,26 @@ import PropTypes from "prop-types";
 
 interface Props {
   getItems(): IAction;
+  deleteItem(id: string): IAction;
   item: IState;
 }
 class ShoppingList extends Component<Props> {
   static propTypes: { [key in keyof Props]: any } = {
     item: PropTypes.object.isRequired,
+    deleteItem: PropTypes.func.isRequired,
     getItems: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.props.getItems();
   }
-
+  onDeleteClick = (id: string) => {
+    this.props.deleteItem(id);
+  };
   render() {
     const items = this.props.item.items;
     return (
       <Container>
-        <Button
-          color="dark"
-          style={{ marginBottom: "2rem" }}
-          onClick={() => {
-            const name = window.prompt("enter item");
-            if (name) {
-              var newState: IState = {
-                items: [
-                  ...this.props.item.items,
-                  {
-                    id: uuid(),
-                    name: name
-                  }
-                ]
-              };
-              this.setState(newState);
-            }
-          }}
-        >
-          Add Item
-        </Button>
-
         <ListGroup>
           <TransitionGroup className="shopping-list">
             {items.map(item => (
@@ -63,14 +45,7 @@ class ShoppingList extends Component<Props> {
                     className="remove-btn"
                     color="danger"
                     size="sm"
-                    onClick={() => {
-                      var newState: IState = {
-                        items: [...this.props.item.items].filter(
-                          stateItem => stateItem.id !== item.id
-                        )
-                      };
-                      this.setState(newState);
-                    }}
+                    onClick={this.onDeleteClick.bind(this, item.id)}
                   >
                     {" "}
                     &times;
@@ -98,5 +73,5 @@ const mapStateToProps = (state: ICombinedReducer): Object => ({
 
 export default connect(
   mapStateToProps,
-  { getItems } // The get Items action will be stored as a prop
+  { getItems, deleteItem } // The get Items action will be stored as a prop
 )(ShoppingList);
