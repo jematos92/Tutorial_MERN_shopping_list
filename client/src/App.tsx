@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+
+import NavBar from "./components/appNavBar";
 
 class App extends Component {
   render() {
-    return <h5>hello</h5>;
+    return <NavBar />;
   }
 }
 
