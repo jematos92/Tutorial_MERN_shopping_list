@@ -5,12 +5,15 @@
 // Server to reducer communication.
 
 import { v4 as uuid } from "uuid";
-import { ADD_ITEM, DELETE_ITEM, GET_ITEMS } from "../actions/types";
-import IAction from "../models/iAction";
-import IState from "../models/iState";
-import IItem from "../models/iItem";
+import {
+  ADD_ITEM,
+  DELETE_ITEM,
+  GET_ITEMS,
+  ItemActionTypes,
+  itemsState
+} from "./types";
 
-const initialStatetate: IState = {
+const initialStatetate: itemsState = {
   items: [
     {
       id: uuid(),
@@ -40,23 +43,26 @@ const initialStatetate: IState = {
 };
 
 //** A function that takes the inital state an action to perform and returns the new state */
-var itemReducer = function(state = initialStatetate, action: IAction) {
+var itemReducer = function(
+  state = initialStatetate,
+  action: ItemActionTypes
+): itemsState {
   switch (action.type) {
     case GET_ITEMS:
-      var newState: IState = {
+      var newState: itemsState = {
         ...state
       };
       return newState;
     case DELETE_ITEM:
-      var newState: IState = {
+      var newState: itemsState = {
         ...state,
-        items: state.items.filter(x => x.id !== action.payload)
+        items: state.items.filter(x => x.id !== action.payload.id)
       };
       return newState;
     case ADD_ITEM:
-      var newState: IState = {
+      var newState: itemsState = {
         ...state,
-        items: [action.payload as IItem, ...state.items]
+        items: [action.payload.item, ...state.items]
       };
       return newState;
     default:

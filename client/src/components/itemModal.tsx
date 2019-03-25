@@ -1,18 +1,6 @@
 import React, { Component } from "react";
-import {
-  Modal,
-  Form,
-  Collapse,
-  Container,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink
-} from "reactstrap";
+import { Modal, Form } from "reactstrap";
 import { connect } from "react-redux";
-import { addItem } from "../actions/itemActions";
 import Button from "reactstrap/lib/Button";
 import ModalHeader from "reactstrap/lib/ModalHeader";
 import ModalBody from "reactstrap/lib/ModalBody";
@@ -21,22 +9,18 @@ import Label from "reactstrap/lib/Label";
 import Input from "reactstrap/lib/Input";
 import { v4 as uuid } from "uuid";
 import IItem from "../models/iItem";
-import IAction from "../models/iAction";
-import PropTypes from "prop-types";
-import ICombinedReducer from "../models/iCombinedReducer";
+import { AppState } from "../store";
+import { addItem } from "../store/items/actions";
 
 // This is a container, a component that is hooked to redux.
 
 interface Props {
-  addItem(item: IItem): IAction;
+  addItem: typeof addItem;
 }
 class ItemModal extends Component<Props> {
   state = {
     modal: false, // True if the modal is open,
     name: "" // Form input, state only of the component, it doesnt go to redux.
-  };
-  static propTypes: { [key in keyof Props]: any } = {
-    addItem: PropTypes.func.isRequired
   };
 
   toggle = () => {
@@ -89,7 +73,7 @@ class ItemModal extends Component<Props> {
     );
   }
 }
-const mapStateToProps = (state: ICombinedReducer): Object => ({
+const mapStateToProps = (state: AppState): Object => ({
   item: state.item
 });
 

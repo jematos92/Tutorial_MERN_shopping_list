@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { v4 as uuid } from "uuid";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Container } from "reactstrap";
 import Button from "reactstrap/lib/Button";
@@ -8,24 +7,15 @@ import ListGroupItem from "reactstrap/lib/ListGroupItem";
 
 // Connect allows to get state from redux into react.
 import { connect } from "react-redux";
-import { getItems, deleteItem } from "../actions/itemActions";
-import IState from "../models/iState";
-import ICombinedReducer from "../models/iCombinedReducer";
-import IAction from "../models/iAction";
-import PropTypes from "prop-types";
-
+import { deleteItem, getItems } from "../store/items/actions";
+import { AppState } from "../store";
+import { itemsState } from "../store/items/types";
 interface Props {
-  getItems(): IAction;
-  deleteItem(id: string): IAction;
-  item: IState;
+  getItems: typeof getItems;
+  deleteItem: typeof deleteItem;
+  item: itemsState;
 }
 class ShoppingList extends Component<Props> {
-  static propTypes: { [key in keyof Props]: any } = {
-    item: PropTypes.object.isRequired,
-    deleteItem: PropTypes.func.isRequired,
-    getItems: PropTypes.func.isRequired
-  };
-
   componentDidMount() {
     this.props.getItems();
   }
@@ -67,7 +57,7 @@ class ShoppingList extends Component<Props> {
  * to the component proptype
  * Each field in the object returned will become a prop for your actual component
  */
-const mapStateToProps = (state: ICombinedReducer): Object => ({
+const mapStateToProps = (state: AppState): Object => ({
   item: state.item
 });
 
