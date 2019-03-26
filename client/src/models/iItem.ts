@@ -1,5 +1,9 @@
 /**The model of the items.  */
 export default interface IItem {
-  id: string;
+  _id: string;
+  name: string;
+}
+
+export interface IItemCreateRequest {
   name: string;
 }

@@ -7,8 +7,7 @@ import ModalBody from "reactstrap/lib/ModalBody";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 import Input from "reactstrap/lib/Input";
-import { v4 as uuid } from "uuid";
-import IItem from "../models/iItem";
+import { IItemCreateRequest } from "../models/iItem";
 import { AppState } from "../store";
 import { addItem } from "../store/items/actions";
 
@@ -28,8 +27,7 @@ class ItemModal extends Component<Props> {
   };
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    var newItem: IItem = {
-      id: uuid(),
+    var newItem: IItemCreateRequest = {
       name: this.state.name
     };
     this.props.addItem(newItem);

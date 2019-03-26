@@ -29,13 +29,13 @@ class ShoppingList extends Component<Props> {
         <ListGroup>
           <TransitionGroup className="shopping-list">
             {items.map(item => (
-              <CSSTransition key={item.id} timeout={500} classNames="fade">
+              <CSSTransition key={item._id} timeout={500} classNames="fade">
                 <ListGroupItem>
                   <Button
                     className="remove-btn"
                     color="danger"
                     size="sm"
-                    onClick={this.onDeleteClick.bind(this, item.id)}
+                    onClick={this.onDeleteClick.bind(this, item._id)}
                   >
                     {" "}
                     &times;

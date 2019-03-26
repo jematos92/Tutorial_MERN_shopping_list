@@ -4,42 +4,18 @@
 // it will dispatch to our recuder. and can have payload
 // Server to reducer communication.
 
-import { v4 as uuid } from "uuid";
 import {
   ADD_ITEM,
   DELETE_ITEM,
   GET_ITEMS,
+  ITEMS_LOADING,
   ItemActionTypes,
   itemsState
 } from "./types";
 
 const initialStatetate: itemsState = {
-  items: [
-    {
-      id: uuid(),
-      name: "item1"
-    },
-    {
-      id: uuid(),
-      name: "item2"
-    },
-    {
-      id: uuid(),
-      name: "item3"
-    },
-    {
-      id: uuid(),
-      name: "item4"
-    },
-    {
-      id: uuid(),
-      name: "item5"
-    },
-    {
-      id: uuid(),
-      name: "item6"
-    }
-  ]
+  items: [],
+  loading: false
 };
 
 //** A function that takes the inital state an action to perform and returns the new state */
@@ -50,13 +26,15 @@ var itemReducer = function(
   switch (action.type) {
     case GET_ITEMS:
       var newState: itemsState = {
-        ...state
+        ...state,
+        items: action.payload,
+        loading: false //Reset loading indicator
       };
       return newState;
     case DELETE_ITEM:
       var newState: itemsState = {
         ...state,
-        items: state.items.filter(x => x.id !== action.payload.id)
+        items: state.items.filter(x => x._id !== action.payload.id)
       };
       return newState;
     case ADD_ITEM:
@@ -65,8 +43,15 @@ var itemReducer = function(
         items: [action.payload.item, ...state.items]
       };
       return newState;
+    case ITEMS_LOADING:
+      var newState: itemsState = {
+        ...state,
+        loading: true
+      };
+      return newState;
     default:
       return state;
   }
 };
+
 export default itemReducer;

@@ -13,7 +13,7 @@ class App extends Component {
         <NavBar />
         <Container>
           <ItemModal />
-          <ShoppingList item={{ items: [] }} />
+          <ShoppingList item={{ items: [], loading: false }} />
         </Container>
       </div>
     );
