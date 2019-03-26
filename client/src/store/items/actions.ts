@@ -6,19 +6,26 @@ import {
   ITEMS_LOADING,
   ItemActionTypes
 } from "./types";
-import Item, { IItemCreateRequest } from "../../models/iItem";
+import Item from "../../models/Item";
+import IItemCreateRequest from "../../models/ItemCreateRequest";
+
 import { ThunkAction } from "redux-thunk";
 import axios from "axios";
 import { AppState } from "../../store";
 
+/**The api route for the items */
+const route = "/api/items";
+/**
+ * Action that get all the items from the databse
+ */
 export const getItems = (): ThunkAction<
-  any, //Return type
-  AppState, //state Type
-  null, //Extra argument
-  ItemActionTypes //Action Type
-> => async (dispatch, getstate, extra) => {
+  void,
+  AppState,
+  null,
+  ItemActionTypes
+> => (dispatch): void => {
   dispatch(setItemsLoading());
-  axios.get("/api/items").then(response => {
+  axios.get(route).then(response => {
     var getItemsActions: ItemActionTypes = {
       type: GET_ITEMS,
       payload: response.data
@@ -27,15 +34,14 @@ export const getItems = (): ThunkAction<
   });
 };
 
+/**
+ * This action will add an item
+ * @param item Item passed to the API
+ */
 export const addItem = (
   item: IItemCreateRequest
-): ThunkAction<
-  any, //Return type
-  AppState, //state Type
-  null, //Extra argument
-  ItemActionTypes //Action Type
-> => async (dispatch, getstate, extra) => {
-  axios.post("/api/items", item).then(response => {
+): ThunkAction<void, AppState, null, ItemActionTypes> => (dispatch): void => {
+  axios.post(route, item).then(response => {
     var addItemAction: ItemActionTypes = {
       type: ADD_ITEM,
       payload: {
@@ -46,15 +52,14 @@ export const addItem = (
   });
 };
 
+/**
+ * This action will delete an item from the
+ * @param id id of the item to delete
+ */
 export const deleteItem = (
   id: string
-): ThunkAction<
-  any, //Return type
-  AppState, //state Type
-  null, //Extra argument
-  ItemActionTypes //Action Type
-> => async (dispatch, getstate, extra) => {
-  axios.delete(`/api/items/${id}`).then(response => {
+): ThunkAction<void, AppState, null, ItemActionTypes> => (dispatch): void => {
+  axios.delete(`${route}/${id}`).then(response => {
     var deleteItemAction: ItemActionTypes = {
       type: DELETE_ITEM,
       payload: {
@@ -65,6 +70,9 @@ export const deleteItem = (
   });
 };
 
+/**This is an action creator that is trigered whenever the
+ * items are loading.
+ */
 export const setItemsLoading = (): ItemActionTypes => {
   return {
     type: ITEMS_LOADING

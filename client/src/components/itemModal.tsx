@@ -7,15 +7,24 @@ import ModalBody from "reactstrap/lib/ModalBody";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 import Input from "reactstrap/lib/Input";
-import { IItemCreateRequest } from "../models/iItem";
+import ItemCreateRequest from "../models/ItemCreateRequest";
 import { AppState } from "../store";
 import { addItem } from "../store/items/actions";
 
 // This is a container, a component that is hooked to redux.
 
-interface Props {
-  addItem: typeof addItem;
+/**This components state */
+interface State {}
+/**Custom or properties defined by this component, passed by the parent component */
+interface OwnProps {}
+/**Properties dispatching from actions, see mapDispatchToProps */
+interface DispatchProps {
+  addItem: (item: ItemCreateRequest) => void;
 }
+/**Properties comming from the application state, See mapStateToProps */
+interface StateProps {}
+type Props = StateProps & DispatchProps & OwnProps;
+
 class ItemModal extends Component<Props> {
   state = {
     modal: false, // True if the modal is open,
@@ -27,7 +36,7 @@ class ItemModal extends Component<Props> {
   };
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    var newItem: IItemCreateRequest = {
+    var newItem: ItemCreateRequest = {
       name: this.state.name
     };
     this.props.addItem(newItem);
