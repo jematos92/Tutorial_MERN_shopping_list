@@ -4,10 +4,8 @@ import { Container } from "reactstrap";
 import Button from "reactstrap/lib/Button";
 import ListGroup from "reactstrap/lib/ListGroup";
 import ListGroupItem from "reactstrap/lib/ListGroupItem";
-import { ItemActionTypes } from "../store/items/types";
 // Connect allows to get state from redux into react.
 import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
 import { deleteItem, getItems } from "../store/items/actions";
 import { AppState } from "../store";
 import { itemsState } from "../store/items/types";

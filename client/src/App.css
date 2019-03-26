@@ -1,7 +1,9 @@
+/*Added some spaces for the remove buton*/
 .remove-btn {
   margin-right: 0.5rem;
 }
 
+/*Fade effect for the items in the shopping list*/
 .fade-enter {
   opacity: 0.01;
 }

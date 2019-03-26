@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Form } from "reactstrap";
+// Connect allows to get state from redux into react.
 import { connect } from "react-redux";
 import Button from "reactstrap/lib/Button";
 import ModalHeader from "reactstrap/lib/ModalHeader";
