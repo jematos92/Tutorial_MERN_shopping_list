@@ -1,7 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
-import keys from "../config/keys";
 import itemRoutes from "../src/routes/api/items";
+import userRoutes from "../src/routes/api/users";
+import authRoutes from "../src/routes/api/auth";
+
+import config from "config";
 const app = express();
 
 //Middleware Conf
@@ -9,7 +12,10 @@ app.use(express.json());
 
 //Connect to database
 mongoose
-  .connect(keys.MongoURI)
+  .connect(config.get("MongoURI"), {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  })
   .then(() => {
     console.log("Mongo DB Connected");
   })
@@ -24,3 +30,5 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/items", itemRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
