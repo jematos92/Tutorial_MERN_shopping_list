@@ -12,6 +12,9 @@ import IItemCreateRequest from "../../models/ItemCreateRequest";
 import { ThunkAction } from "redux-thunk";
 import axios from "axios";
 import { AppState } from "../../store";
+import { ErrorsActionTypes } from "../errors/types";
+import { returnErrors } from "../errors/actions";
+import { tokenConfig } from "../auth/actions";
 
 /**The api route for the items */
 const route = "/api/items";
@@ -22,16 +25,25 @@ export const getItems = (): ThunkAction<
   void,
   AppState,
   null,
-  ItemActionTypes
+  ItemActionTypes | ErrorsActionTypes
 > => (dispatch): void => {
   dispatch(setItemsLoading());
-  axios.get<Item[]>(route).then(response => {
-    var getItemsActions: ItemActionTypes = {
-      type: GET_ITEMS,
-      payload: response.data
-    };
-    dispatch(getItemsActions);
-  });
+  axios
+    .get<Item[]>(route)
+    .then(response => {
+      var getItemsActions: ItemActionTypes = {
+        type: GET_ITEMS,
+        payload: response.data
+      };
+      dispatch(getItemsActions);
+    })
+    .catch(err => {
+      var returnErrorAction: ErrorsActionTypes = returnErrors(
+        err.response.data.msg,
+        err.response.status
+      );
+      dispatch(returnErrorAction);
+    });
 };
 
 /**
@@ -40,16 +52,28 @@ export const getItems = (): ThunkAction<
  */
 export const addItem = (
   item: IItemCreateRequest
-): ThunkAction<void, AppState, null, ItemActionTypes> => (dispatch): void => {
-  axios.post<Item>(route, item).then(response => {
-    var addItemAction: ItemActionTypes = {
-      type: ADD_ITEM,
-      payload: {
-        item: response.data
-      }
-    };
-    dispatch(addItemAction);
-  });
+): ThunkAction<void, AppState, null, ItemActionTypes | ErrorsActionTypes> => (
+  dispatch,
+  getState
+): void => {
+  axios
+    .post<Item>(route, item, tokenConfig(getState()))
+    .then(response => {
+      var addItemAction: ItemActionTypes = {
+        type: ADD_ITEM,
+        payload: {
+          item: response.data
+        }
+      };
+      dispatch(addItemAction);
+    })
+    .catch(err => {
+      var returnErrorAction: ErrorsActionTypes = returnErrors(
+        err.response.data.msg,
+        err.response.status
+      );
+      dispatch(returnErrorAction);
+    });
 };
 
 /**
@@ -58,16 +82,28 @@ export const addItem = (
  */
 export const deleteItem = (
   id: string
-): ThunkAction<void, AppState, null, ItemActionTypes> => (dispatch): void => {
-  axios.delete(`${route}/${id}`).then(response => {
-    var deleteItemAction: ItemActionTypes = {
-      type: DELETE_ITEM,
-      payload: {
-        id: id
-      }
-    };
-    dispatch(deleteItemAction);
-  });
+): ThunkAction<void, AppState, null, ItemActionTypes | ErrorsActionTypes> => (
+  dispatch,
+  getState
+): void => {
+  axios
+    .delete(`${route}/${id}`, tokenConfig(getState()))
+    .then(response => {
+      var deleteItemAction: ItemActionTypes = {
+        type: DELETE_ITEM,
+        payload: {
+          id: id
+        }
+      };
+      dispatch(deleteItemAction);
+    })
+    .catch(err => {
+      var returnErrorAction: ErrorsActionTypes = returnErrors(
+        err.response.data.msg,
+        err.response.status
+      );
+      dispatch(returnErrorAction);
+    });
 };
 
 /**This is an action creator that is trigered whenever the
