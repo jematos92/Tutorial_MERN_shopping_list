@@ -81,7 +81,7 @@ class ItemModal extends Component<Props> {
     );
   }
 }
-const mapStateToProps = (state: AppState): Object => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   item: state.item
 });
 

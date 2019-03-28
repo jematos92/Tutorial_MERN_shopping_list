@@ -7,7 +7,9 @@ import {
   USER_LOADED,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL
 } from "./types";
 import User from "../../models/User";
 import { ThunkAction } from "redux-thunk";
@@ -18,7 +20,8 @@ import { returnErrors } from "../errors/actions";
 import {
   authHeader,
   contentTypeHeader,
-  registerErrorId
+  registerErrorId,
+  loginFailedId
 } from "../../constants/constants";
 import { json } from "body-parser";
 
@@ -133,4 +136,46 @@ export const logout = (): ThunkAction<
     type: LOGOUT_SUCCESS
   };
   dispatch(logoutAction);
+};
+
+/**
+ * This action will register the user
+ */
+export const login = (
+  email: string,
+  password: string
+): ThunkAction<void, AppState, null, AuthActionTypes | ErrorsActionTypes> => (
+  dispatch
+): void => {
+  const config = {
+    headers: {
+      [contentTypeHeader]: "application/json",
+      [authHeader]: ""
+    }
+  };
+  var body = JSON.stringify({
+    email,
+    password
+  });
+  axios
+    .post(route, body, config)
+    .then(response => {
+      var registerSuccessAction: AuthActionTypes = {
+        type: LOGIN_SUCCESS,
+        payload: response.data
+      };
+      dispatch(registerSuccessAction);
+    })
+    .catch(err => {
+      var returnErrorAction: ErrorsActionTypes = returnErrors(
+        err.response.data.msg,
+        err.response.status,
+        loginFailedId
+      );
+      var errorAction: AuthActionTypes = {
+        type: LOGIN_FAIL
+      };
+      dispatch(returnErrorAction);
+      dispatch(errorAction);
+    });
 };
