@@ -11,6 +11,7 @@ import Input from "reactstrap/lib/Input";
 import ItemCreateRequest from "../models/ItemCreateRequest";
 import { AppState } from "../store";
 import { addItem } from "../store/items/actions";
+import { itemsState } from "../store/items/types";
 
 // This is a container, a component that is hooked to redux.
 
@@ -23,7 +24,10 @@ interface DispatchProps {
   addItem: (item: ItemCreateRequest) => void;
 }
 /**Properties comming from the application state, See mapStateToProps */
-interface StateProps {}
+interface StateProps {
+  item: itemsState;
+  isAuthenticated: boolean | null;
+}
 type Props = StateProps & DispatchProps & OwnProps;
 
 class ItemModal extends Component<Props> {
@@ -49,13 +53,18 @@ class ItemModal extends Component<Props> {
   render() {
     return (
       <div>
-        <Button
-          color="dark"
-          style={{ marginBottom: "2rem" }}
-          onClick={this.toggle}
-        >
-          Add Item
-        </Button>
+        {this.props.isAuthenticated ? (
+          <Button
+            color="dark"
+            style={{ marginBottom: "2rem" }}
+            onClick={this.toggle}
+          >
+            Add Item
+          </Button>
+        ) : (
+          <h4 className="mb-3 ml-4">Please login to see the items.</h4>
+        )}
+
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}> Add To Shopping List</ModalHeader>
           <ModalBody>
@@ -82,7 +91,8 @@ class ItemModal extends Component<Props> {
   }
 }
 const mapStateToProps = (state: AppState): StateProps => ({
-  item: state.item
+  item: state.item,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(

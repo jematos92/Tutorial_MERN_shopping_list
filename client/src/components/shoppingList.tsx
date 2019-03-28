@@ -22,6 +22,7 @@ interface DispatchProps {
 /**Properties comming from the application state, See mapStateToProps */
 interface StateProps {
   item: itemsState;
+  isAuthenticated: boolean | null;
 }
 type Props = StateProps & DispatchProps & OwnProps;
 class ShoppingList extends Component<Props> {
@@ -40,15 +41,18 @@ class ShoppingList extends Component<Props> {
             {items.map(item => (
               <CSSTransition key={item._id} timeout={500} classNames="fade">
                 <ListGroupItem>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={this.onDeleteClick.bind(this, item._id)}
-                  >
-                    {" "}
-                    &times;
-                  </Button>
+                  {this.props.isAuthenticated ? (
+                    <Button
+                      className="remove-btn"
+                      color="danger"
+                      size="sm"
+                      onClick={this.onDeleteClick.bind(this, item._id)}
+                    >
+                      {" "}
+                      &times;
+                    </Button>
+                  ) : null}
+
                   {item.name}
                 </ListGroupItem>
               </CSSTransition>
@@ -68,7 +72,8 @@ class ShoppingList extends Component<Props> {
  */
 const mapStateToProps = (state: AppState): StateProps => {
   var stateProps: StateProps = {
-    item: state.item
+    item: state.item,
+    isAuthenticated: state.auth.isAuthenticated
   };
   return stateProps;
 };
