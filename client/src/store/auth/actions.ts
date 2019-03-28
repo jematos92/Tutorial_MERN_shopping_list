@@ -6,7 +6,8 @@ import {
   AUTH_ERROR,
   USER_LOADED,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  LOGOUT_SUCCESS
 } from "./types";
 import User from "../../models/User";
 import { ThunkAction } from "redux-thunk";
@@ -117,4 +118,19 @@ export const register = (
       dispatch(returnErrorAction);
       dispatch(errorAction);
     });
+};
+
+/**
+ * This action will register the user
+ */
+export const logout = (): ThunkAction<
+  void,
+  AppState,
+  null,
+  AuthActionTypes
+> => (dispatch): void => {
+  var logoutAction: AuthActionTypes = {
+    type: LOGOUT_SUCCESS
+  };
+  dispatch(logoutAction);
 };
