@@ -1,7 +1,6 @@
 // this where we make requests to backend
 import {
   AuthActionTypes,
-  AuthState,
   USER_LOADING,
   AUTH_ERROR,
   USER_LOADED,
@@ -23,7 +22,6 @@ import {
   registerErrorId,
   loginFailedId
 } from "../../constants/constants";
-import { json } from "body-parser";
 
 /**The api route for the items */
 const route = "/api/auth";

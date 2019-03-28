@@ -3,7 +3,7 @@ import User from "../../models/User";
 import bycript from "bcryptjs";
 const router = express.Router();
 import config from "config";
-import jwt, { JwtHeader } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { jwtSecretConfigLabel } from "../../constants/constants";
 
 //@route    GET api/users

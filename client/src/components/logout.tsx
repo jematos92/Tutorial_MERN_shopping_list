@@ -2,30 +2,11 @@ import React, { Component } from "react";
 import { Modal, Form } from "reactstrap";
 // Connect allows to get state from redux into react.
 import { connect } from "react-redux";
-import Button from "reactstrap/lib/Button";
-import ModalHeader from "reactstrap/lib/ModalHeader";
-import ModalBody from "reactstrap/lib/ModalBody";
-import FormGroup from "reactstrap/lib/FormGroup";
-import Label from "reactstrap/lib/Label";
-import Input from "reactstrap/lib/Input";
-import ItemCreateRequest from "../models/ItemCreateRequest";
 import { AppState } from "../store";
 import { logout } from "../store/auth/actions";
-import { errorState } from "../store/errors/types";
 import NavLink from "reactstrap/lib/NavLink";
-import { registerErrorId } from "../constants/constants";
-import Alert from "reactstrap/lib/Alert";
 
 // This is a container, a component that is hooked to redux.
-
-/**This components state */
-interface State {
-  modal: boolean;
-  name: string;
-  email: string;
-  password: string;
-  msg: string | null;
-}
 /**Custom or properties defined by this component, passed by the parent component */
 interface OwnProps {}
 /**Properties dispatching from actions, see mapDispatchToProps */

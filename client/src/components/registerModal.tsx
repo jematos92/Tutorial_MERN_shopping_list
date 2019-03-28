@@ -8,7 +8,6 @@ import ModalBody from "reactstrap/lib/ModalBody";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 import Input from "reactstrap/lib/Input";
-import ItemCreateRequest from "../models/ItemCreateRequest";
 import { AppState } from "../store";
 import { register } from "../store/auth/actions";
 import { errorState } from "../store/errors/types";

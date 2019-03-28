@@ -25,7 +25,7 @@ interface StateProps {
   isAuthenticated: boolean | null;
 }
 type Props = StateProps & DispatchProps & OwnProps;
-class ShoppingList extends Component<Props> {
+class ShoppingList extends Component<Props, State> {
   componentDidMount() {
     this.props.getItems();
   }
