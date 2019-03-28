@@ -3,9 +3,9 @@ import { GET_ERRORS, CLEAR_ERRORS, ErrorsActionTypes } from "./types";
 
 //RETURN ERRROS
 export const returnErrors = (
-  msg: {},
+  msg: string,
   status: string,
-  id = null
+  id: string | null = null
 ): ErrorsActionTypes => {
   return {
     type: GET_ERRORS,

@@ -1,4 +1,5 @@
 import User from "../../models/User";
+import { tokenConfig } from "./actions";
 
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
@@ -15,17 +16,23 @@ export interface AuthState {
   isLoading: boolean;
   user: User | null;
 }
-interface AuthenticateUserAction {
+interface RegisterSuccessAction {
   type: typeof REGISTER_SUCCESS;
-  payload: User | null;
+  payload: {
+    user: User;
+    token: string;
+  };
 }
 interface LoginSuccessAction {
   type: typeof LOGIN_SUCCESS;
-  payload: User | null;
+  payload: {
+    user: User;
+    token: string;
+  };
 }
-interface RegisterSuccessAction {
+interface UserLoadedSuccessAction {
   type: typeof USER_LOADED;
-  payload: User | null;
+  payload: User;
 }
 interface LoadingUserAction {
   type: typeof USER_LOADING;
@@ -44,7 +51,7 @@ interface RegisterErrorAction {
 }
 
 export type AuthActionTypes =
-  | AuthenticateUserAction
+  | UserLoadedSuccessAction
   | LoadingUserAction
   | AuthErrorAction
   | LoginErrorAction

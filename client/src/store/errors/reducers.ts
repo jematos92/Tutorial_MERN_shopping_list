@@ -12,7 +12,7 @@ import {
 } from "./types";
 
 const initialStatetate: errorState = {
-  msg: {},
+  msg: null,
   status: null,
   id: null
 };
@@ -33,7 +33,7 @@ var itemReducer = function(
     case CLEAR_ERRORS:
       var newState: errorState = {
         id: null,
-        msg: {},
+        msg: null,
         status: null
       };
       return newState;

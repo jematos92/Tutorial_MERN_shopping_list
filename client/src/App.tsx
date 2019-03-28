@@ -4,11 +4,11 @@ import "./App.css";
 import NavBar from "./components/appNavBar";
 import ShoppingList from "./components/shoppingList";
 import ItemModal from "./components/itemModal";
+import RegisterModal from "./components/registerModal";
+
 import { Container } from "reactstrap";
 import { connect } from "react-redux";
 import { loadUser } from "../src/store/auth/actions";
-import { AppState } from "../src/store";
-
 /**This components state */
 interface State {}
 /**Custom or properties defined by this component, provided by the parent component */

@@ -4,7 +4,7 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 interface getErrorsAction {
   type: typeof GET_ERRORS;
   payload: {
-    msg: {};
+    msg: string | null;
     status: string | null;
     id: string | null;
   };
@@ -15,7 +15,7 @@ interface ClearErrorsAction {
 }
 
 export interface errorState {
-  msg: {};
+  msg: string | null;
   status: string | null;
   id: string | null;
 }

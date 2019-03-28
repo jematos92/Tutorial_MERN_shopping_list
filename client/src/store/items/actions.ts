@@ -25,7 +25,7 @@ export const getItems = (): ThunkAction<
   ItemActionTypes
 > => (dispatch): void => {
   dispatch(setItemsLoading());
-  axios.get(route).then(response => {
+  axios.get<Item[]>(route).then(response => {
     var getItemsActions: ItemActionTypes = {
       type: GET_ITEMS,
       payload: response.data
@@ -41,11 +41,11 @@ export const getItems = (): ThunkAction<
 export const addItem = (
   item: IItemCreateRequest
 ): ThunkAction<void, AppState, null, ItemActionTypes> => (dispatch): void => {
-  axios.post(route, item).then(response => {
+  axios.post<Item>(route, item).then(response => {
     var addItemAction: ItemActionTypes = {
       type: ADD_ITEM,
       payload: {
-        item: response.data as Item
+        item: response.data
       }
     };
     dispatch(addItemAction);

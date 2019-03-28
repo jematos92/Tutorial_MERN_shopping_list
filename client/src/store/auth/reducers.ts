@@ -44,8 +44,10 @@ var itemReducer = function(
         isAuthenticated: true,
         user: action.payload
       };
+      return newState;
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
+      localStorage.setItem(localStorageToken, action.payload.token);
       var newState: AuthState = {
         ...state,
         ...action.payload,

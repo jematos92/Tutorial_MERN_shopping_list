@@ -5,6 +5,7 @@ const router = express.Router();
 import config from "config";
 import jwt from "jsonwebtoken";
 import auth from "../../middleware/auth";
+import { jwtSecretConfigLabel } from "../../constants/constants";
 
 //@route    GET api/auth/user
 //@dec      Get user data by token.
@@ -16,7 +17,7 @@ router.get("/user", auth, (req, res) => {
 });
 
 //@route    POST api/auth
-//@dec      Register new user the user
+//@dec      Login User
 //@access   Public
 router.post("/", (req, res) => {
   const { email, password } = req.body;
@@ -24,7 +25,6 @@ router.post("/", (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ msg: "Please Enter All fields" });
   }
-
   //Check Existing User
   User.findOne({ email }).then(user => {
     if (!user) {
@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
       //Send the token and the user.
       jwt.sign(
         { id: user.id }, // Embed the Id of the user in the token. to associate or attach token to user.
-        config.get("JwtSecret"),
+        config.get(jwtSecretConfigLabel),
         {
           expiresIn: 3600 // expire the togen in one hour
         },
