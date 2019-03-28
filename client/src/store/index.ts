@@ -4,12 +4,17 @@
 // whatever reducers into a single one.
 
 import itemReducer from "./items/reducers";
+import errorReducer from "./errors/reducers";
+import authReducer from "./auth/reducers";
+
 import thunkMiddleware from "redux-thunk";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
-  item: itemReducer
+  item: itemReducer,
+  error: errorReducer,
+  auth: authReducer
 });
 export type AppState = ReturnType<typeof rootReducer>;
 
